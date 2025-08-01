@@ -54,26 +54,25 @@ function loadGeoJSONLayer(url, layerName, withClickablePopup) {
 
 // NOMI FILE GEOJSON da modificare qui
 const geojsonFiles = {
-  "Permeabilità in foro": "permeabilita.geojson",
-  "Prove penetrometriche": "penetrometriche.geojson",
-  "Sondaggi": "sondaggi.geojson",
-  "Altro layer 1": "stazioni.geojson",
-  "Altro layer 2": "tratte.geojson",
-  "Altro layer 3": "comuni.geojson"
+  "permeabilita": "permeabilita.geojson",
+  "penetrometriche": "penetrometriche.geojson",
+  "sondaggi": "sondaggi.geojson",
+  "stazioni": "stazioni.geojson",
+  "tratte": "tratte.geojson"
 };
 
 var layersControl = {};
 var promises = [];
 
 // Carico i layer con popup cliccabili (true)
-promises.push(loadGeoJSONLayer(geojsonFiles["Permeabilità in foro"], "Permeabilità in foro", true).then(layer => {
-  layersControl["Permeabilità in foro"] = layer.addTo(map);
+promises.push(loadGeoJSONLayer(geojsonFiles["permeabilita"], "permeabilita", true).then(layer => {
+  layersControl["permeabilita"] = layer.addTo(map);
 }));
-promises.push(loadGeoJSONLayer(geojsonFiles["Prove penetrometriche"], "Prove penetrometriche", true).then(layer => {
-  layersControl["Prove penetrometriche"] = layer.addTo(map);
+promises.push(loadGeoJSONLayer(geojsonFiles["penetrometriche"], "penetrometriche", true).then(layer => {
+  layersControl["penetrometriche"] = layer.addTo(map);
 }));
-promises.push(loadGeoJSONLayer(geojsonFiles["Sondaggi"], "Sondaggi", true).then(layer => {
-  layersControl["Sondaggi"] = layer.addTo(map);
+promises.push(loadGeoJSONLayer(geojsonFiles["sondaggi"], "sondaggi", true).then(layer => {
+  layersControl["sondaggi"] = layer.addTo(map);
 }));
 
 // Carico i layer senza popup cliccabili (false)
@@ -82,9 +81,6 @@ promises.push(loadGeoJSONLayer(geojsonFiles["Altro layer 1"], "Altro layer 1", f
 }));
 promises.push(loadGeoJSONLayer(geojsonFiles["Altro layer 2"], "Altro layer 2", false).then(layer => {
   layersControl["Altro layer 2"] = layer;
-}));
-promises.push(loadGeoJSONLayer(geojsonFiles["Altro layer 3"], "Altro layer 3", false).then(layer => {
-  layersControl["Altro layer 3"] = layer;
 }));
 
 // Quando tutti i layer sono caricati aggiungo il controllo layer

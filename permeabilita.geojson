@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"name": "permeabilita",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "allegato": "C:\\Users\\969451\\OneDrive - Gruppo Ferrovie Dello Stato\\Desktop\\BANCA DATI\\Linea Mestre - Trieste\\Km. 24+000\\indagini indirette\\permeabilita", "NProva": "1", "km": "24+000", "relazione": "Progetto di costruzione di nuovo ponte sul fosso colatore Meolo per l'eliminazione del passaggio a livello lungo la s.p. n.45" }, "geometry": { "type": "Point", "coordinates": [ 1386540.925418731058016, 5718683.942595781758428 ] } },
+{ "type": "Feature", "properties": { "id": 2, "allegato": "C:\\Users\\969451\\OneDrive - Gruppo Ferrovie Dello Stato\\Desktop\\BANCA DATI\\Linea Mestre - Trieste\\Km. 28+100\\Indagini indirette\\Permeabilità", "NProva": "1", "km": "28+100", "relazione": null }, "geometry": { "type": "Point", "coordinates": [ 1394921.652994577540085, 5721358.76740643940866 ] } }
+]
+}

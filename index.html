@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Mappa Layer con Popup Cliccabili</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+  #map { height: 100vh; }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+// Inizializzo la mappa centrata su coordinate medie e zoom adatto
+var map = L.map('map').setView([45.0, 10.0], 10);
+
+// Aggiungo il layer base OpenStreetMap
+var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+// Funzione per caricare layer GeoJSON con popup cliccabili (link) per i layer specifici
+function loadGeoJSONLayer(url, layerName, withClickablePopup) {
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      var layer = L.geoJSON(data, {
+        onEachFeature: function(feature, layer) {
+          if (withClickablePopup) {
+            if (feature.properties && feature.properties.allegato) {
+              layer.bindPopup(
+                '<strong>' + (feature.properties.nome || layerName) + '</strong><br>' +
+                '<a href="' + feature.properties.allegato + '" target="_blank">Apri Allegato PDF</a>'
+              );
+            }
+          } else {
+            if (feature.properties && feature.properties.nome) {
+              layer.bindPopup(feature.properties.nome);
+            }
+          }
+        }
+      });
+      return layer;
+    });
+}
+
+// NOMI FILE GEOJSON da modificare qui
+const geojsonFiles = {
+  "Permeabilità in foro": "permeabilita.geojson",
+  "Prove penetrometriche": "penetrometriche.geojson",
+  "Sondaggi": "sondaggi.geojson",
+  "Altro layer 1": "stazioni.geojson",
+  "Altro layer 2": "tratte.geojson",
+  "Altro layer 3": "comuni.geojson"
+};
+
+var layersControl = {};
+var promises = [];
+
+// Carico i layer con popup cliccabili (true)
+promises.push(loadGeoJSONLayer(geojsonFiles["Permeabilità in foro"], "Permeabilità in foro", true).then(layer => {
+  layersControl["Permeabilità in foro"] = layer.addTo(map);
+}));
+promises.push(loadGeoJSONLayer(geojsonFiles["Prove penetrometriche"], "Prove penetrometriche", true).then(layer => {
+  layersControl["Prove penetrometriche"] = layer.addTo(map);
+}));
+promises.push(loadGeoJSONLayer(geojsonFiles["Sondaggi"], "Sondaggi", true).then(layer => {
+  layersControl["Sondaggi"] = layer.addTo(map);
+}));
+
+// Carico i layer senza popup cliccabili (false)
+promises.push(loadGeoJSONLayer(geojsonFiles["Altro layer 1"], "Altro layer 1", false).then(layer => {
+  layersControl["Altro layer 1"] = layer;
+}));
+promises.push(loadGeoJSONLayer(geojsonFiles["Altro layer 2"], "Altro layer 2", false).then(layer => {
+  layersControl["Altro layer 2"] = layer;
+}));
+promises.push(loadGeoJSONLayer(geojsonFiles["Altro layer 3"], "Altro layer 3", false).then(layer => {
+  layersControl["Altro layer 3"] = layer;
+}));
+
+// Quando tutti i layer sono caricati aggiungo il controllo layer
+Promise.all(promises).then(() => {
+  L.control.layers(null, layersControl).addTo(map);
+});
+</script>
+
+</body>
+</html>
